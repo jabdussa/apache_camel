@@ -1,0 +1,1216 @@
+<html>
+<header>
+<title>SFTP</title>
+</header>
+<body>
+<h1>SFTP</h1>
+<b>Scheme:</b> sftp<br/>
+<b>Syntax:</b> sftp:host:port/directoryName<br/>
+<b>Description:</b> The sftp (FTP over SSH) component is used for uploading or downloading files from SFTP servers.<br/>
+<b>Deprecated:</b>false<br/>
+<b>Maven:</b> org.apache.camel/camel-ftp/2.17.2<br/>
+<p>The sftp (FTP over SSH) component is used for uploading or downloading files from SFTP servers.</p>
+<table class='table'>
+  <tr>
+    <th align="left">Name</th>
+    <th align="left">Kind</th>
+    <th align="left">Group</th>
+    <th align="left">Required</th>
+    <th align="left">Default</th>
+    <th align="left">Type</th>
+    <th align="left">Enum</th>
+    <th align="left">Description</th>
+  </tr>
+  <tr>
+    <td>host</td>
+    <td>path</td>
+    <td>common</td>
+    <td>true</td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td> Hostname of the FTP server
+</td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>path</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td> Port of the FTP server
+</td>
+  </tr>
+  <tr>
+    <td>directoryName</td>
+    <td>path</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td> The starting directory
+</td>
+  </tr>
+  <tr>
+    <td>binary</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Specifies the file transfer mode, BINARY or ASCII. Default is ASCII (false).</td>
+  </tr>
+  <tr>
+    <td>charset</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>disconnect</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Whether or not to disconnect from remote FTP server right after use.
+ Disconnect will only disconnect the current connection to the FTP server.
+ If you have a consumer which you want to stop, then you need to stop the consumer/route instead.</td>
+  </tr>
+  <tr>
+    <td>download</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Whether the FTP consumer should download the file.
+ If this option is set to false, then the message body will be null, but the consumer will still trigger a Camel
+ Exchange that has details about the file such as file name, file size, etc. It's just that the file will not be downloaded.</td>
+  </tr>
+  <tr>
+    <td>fastExistsCheck</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>If set this option to be true, camel-ftp will use the list file directly to check if the file exists.
+ Since some FTP server may not support to list the file directly, if the option is false,
+ camel-ftp will use the old way to list the directory and check if the file exists.
+ This option also influences readLock=changed to control whether it performs a fast check to update file information or not.
+ This can be used to speed up the process if the FTP server has a lot of files.</td>
+  </tr>
+  <tr>
+    <td>fileName</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>jschLoggingLevel</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td>WARN</td>
+    <td>org.apache.camel.LoggingLevel</td>
+    <td>TRACE<br/>DEBUG<br/>INFO<br/>WARN<br/>ERROR<br/>OFF</td>
+    <td>The logging level to use for JSCH activity logging.
+ As JSCH is verbose at by default at INFO level the threshold is WARN by default.</td>
+  </tr>
+  <tr>
+    <td>maximumReconnectAttempts</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td>Specifies the maximum reconnect attempts Camel performs when it tries to connect to the remote FTP server. Use 0 to disable this behavior.</td>
+  </tr>
+  <tr>
+    <td>passiveMode</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Sets passive mode connections.
+ <br/>
+ Default is active mode connections.</td>
+  </tr>
+  <tr>
+    <td>reconnectDelay</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td></td>
+    <td>long</td>
+    <td></td>
+    <td>Delay in millis Camel will wait before performing a reconnect attempt.</td>
+  </tr>
+  <tr>
+    <td>separator</td>
+    <td>parameter</td>
+    <td>common</td>
+    <td></td>
+    <td>UNIX</td>
+    <td>org.apache.camel.component.file.remote.RemoteFileConfiguration.PathSeparator</td>
+    <td></td>
+    <td>Sets the path separator to be used.
+ <p/>
+ UNIX = Uses unix style path separator
+ Windows = Uses windows style path separator
+ Auto = (is default) Use existing path separator in file name</td>
+  </tr>
+  <tr>
+    <td>bridgeErrorHandler</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Allows for bridging the consumer to the Camel routing Error Handler, which mean any exceptions occurred while the consumer is trying to pickup incoming messages, or the likes, will now be processed as a message and handled by the routing Error Handler. By default the consumer will use the org.apache.camel.spi.ExceptionHandler to deal with exceptions, that will be logged at WARN/ERROR level and ignored.</td>
+  </tr>
+  <tr>
+    <td>delete</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>moveFailed</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>noop</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>preMove</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>recursive</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>sendEmptyMessageWhenIdle</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>If the polling consumer did not poll any files, you can enable this option to send an empty message (no body) instead.</td>
+  </tr>
+  <tr>
+    <td>streamDownload</td>
+    <td>parameter</td>
+    <td>consumer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Sets the download method to use when not using a local working directory.  If set to true,
+ the remote files are streamed to the route as they are read.  When set to false, the remote files
+ are loaded into memory before being sent into the route.</td>
+  </tr>
+  <tr>
+    <td>directoryMustExist</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>exceptionHandler</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.spi.ExceptionHandler</td>
+    <td></td>
+    <td>To let the consumer use a custom ExceptionHandler. Notice if the option bridgeErrorHandler is enabled then this options is not in use. By default the consumer will deal with exceptions, that will be logged at WARN/ERROR level and ignored.</td>
+  </tr>
+  <tr>
+    <td>ignoreFileNotFoundOrPermissionError</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Whether to ignore when trying to download a file which does not exist or due to permission error.
+ <p/>
+ By default when a file does not exists or insufficient permission, then an exception is thrown.
+ Setting this option to <tt>true</tt> allows to ignore that instead.</td>
+  </tr>
+  <tr>
+    <td>inProgressRepository</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.spi.IdempotentRepository<java.lang.String></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>localWorkDirectory</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>onCompletionExceptionHandler</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.spi.ExceptionHandler</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>pollStrategy</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.spi.PollingConsumerPollStrategy</td>
+    <td></td>
+    <td>A pluggable org.apache.camel.PollingConsumerPollingStrategy allowing you to provide your custom implementation to control error handling usually occurred during the poll operation before an Exchange have been created and being routed in Camel.</td>
+  </tr>
+  <tr>
+    <td>processStrategy</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.component.file.GenericFileProcessStrategy<T></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>receiveBufferSize</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td>32768</td>
+    <td>int</td>
+    <td></td>
+    <td>The receive (download) buffer size
+ <p/>
+ Used only by FTPClient</td>
+  </tr>
+  <tr>
+    <td>startingDirectoryMustExist</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>useList</td>
+    <td>parameter</td>
+    <td>consumer (advanced)</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td>Whether to allow using LIST command when downloading a file.
+ <p/>
+ Default is <tt>true</tt>. In some use cases you may want to download
+ a specific file and are not allowed to use the LIST command, and therefore
+ you can set this option to <tt>false</tt>.</td>
+  </tr>
+  <tr>
+    <td>doneFileName</td>
+    <td>parameter</td>
+    <td>producer</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>fileExist</td>
+    <td>parameter</td>
+    <td>producer</td>
+    <td></td>
+    <td>Override</td>
+    <td>org.apache.camel.component.file.GenericFileExist</td>
+    <td>Override<br/>Append<br/>Fail<br/>Ignore<br/>Move<br/>TryRename</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>flatten</td>
+    <td>parameter</td>
+    <td>producer</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>moveExisting</td>
+    <td>parameter</td>
+    <td>producer</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>tempFileName</td>
+    <td>parameter</td>
+    <td>producer</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>tempPrefix</td>
+    <td>parameter</td>
+    <td>producer</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>allowNullBody</td>
+    <td>parameter</td>
+    <td>producer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>chmod</td>
+    <td>parameter</td>
+    <td>producer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Allows you to set chmod on the stored file. For example chmod=640.</td>
+  </tr>
+  <tr>
+    <td>eagerDeleteTargetFile</td>
+    <td>parameter</td>
+    <td>producer (advanced)</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>keepLastModified</td>
+    <td>parameter</td>
+    <td>producer (advanced)</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>sendNoop</td>
+    <td>parameter</td>
+    <td>producer (advanced)</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td>Whether to send a noop command as a pre-write check before uploading files to the FTP server.
+ <p/>
+ This is enabled by default as a validation of the connection is still valid, which allows to silently
+ re-connect to be able to upload the file. However if this causes problems, you can turn this option off.</td>
+  </tr>
+  <tr>
+    <td>autoCreate</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>bufferSize</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>131072</td>
+    <td>int</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>bulkRequests</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.Integer</td>
+    <td></td>
+    <td>Specifies how many requests may be outstanding at any one time. Increasing this value may
+ slightly improve file transfer speed but will increase memory usage.</td>
+  </tr>
+  <tr>
+    <td>compression</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td>To use compression. Specify a level from 1 to 10.
+ Important: You must manually add the needed JSCH zlib JAR to the classpath for compression support.</td>
+  </tr>
+  <tr>
+    <td>connectTimeout</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>10000</td>
+    <td>int</td>
+    <td></td>
+    <td>Sets the connect timeout for waiting for a connection to be established
+ <p/>
+ Used by both FTPClient and JSCH</td>
+  </tr>
+  <tr>
+    <td>exchangePattern</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>InOnly</td>
+    <td>org.apache.camel.ExchangePattern</td>
+    <td>InOnly<br/>RobustInOnly<br/>InOut<br/>InOptionalOut<br/>OutOnly<br/>RobustOutOnly<br/>OutIn<br/>OutOptionalIn</td>
+    <td>Sets the default exchange pattern when creating an exchange</td>
+  </tr>
+  <tr>
+    <td>proxy</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td></td>
+    <td>com.jcraft.jsch.Proxy</td>
+    <td></td>
+    <td>To use a custom configured com.jcraft.jsch.Proxy.
+ This proxy is used to consume/send messages from the target SFTP host.</td>
+  </tr>
+  <tr>
+    <td>serverAliveCountMax</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>1</td>
+    <td>int</td>
+    <td></td>
+    <td>Allows you to set the serverAliveCountMax of the sftp session</td>
+  </tr>
+  <tr>
+    <td>serverAliveInterval</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td>Allows you to set the serverAliveInterval of the sftp session</td>
+  </tr>
+  <tr>
+    <td>siteCommand</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Sets optional site command(s) to be executed after successful login.
+ <p/>
+ Multiple site commands can be separated using a new line character (\n).
+
+ @param siteCommand the site command(s).</td>
+  </tr>
+  <tr>
+    <td>soTimeout</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>300000</td>
+    <td>int</td>
+    <td></td>
+    <td>Sets the so timeout
+ <p/>
+ Used only by FTPClient</td>
+  </tr>
+  <tr>
+    <td>stepwise</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td>Sets whether we should stepwise change directories while traversing file structures
+ when downloading files, or as well when uploading a file to a directory.
+ <p/>
+ You can disable this if you for example are in a situation where you cannot change directory
+ on the FTP server due security reasons.
+
+ @param stepwise whether to use change directory or not</td>
+  </tr>
+  <tr>
+    <td>synchronous</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>false</td>
+    <td>boolean</td>
+    <td></td>
+    <td>Sets whether synchronous processing should be strictly used, or Camel is allowed to use asynchronous processing (if supported).</td>
+  </tr>
+  <tr>
+    <td>throwExceptionOnConnectFailed</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>Should an exception be thrown if connection failed (exhausted)
+ <p/>
+ By default exception is not thrown and a <tt>WARN</tt> is logged.
+ You can use this to enable exception being thrown and handle the thrown exception
+ from the {@link org.apache.camel.spi.PollingConsumerPollStrategy} rollback method.</td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>parameter</td>
+    <td>advanced</td>
+    <td></td>
+    <td>30000</td>
+    <td>int</td>
+    <td></td>
+    <td>Sets the data timeout for waiting for reply
+ <p/>
+ Used only by FTPClient</td>
+  </tr>
+  <tr>
+    <td>antExclude</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>antFilterCaseSensitive</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>antInclude</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>eagerMaxMessagesPerPoll</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>exclude</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>filter</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.component.file.GenericFileFilter<T></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>idempotent</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td>false</td>
+    <td>java.lang.Boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>idempotentKey</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>idempotentRepository</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.spi.IdempotentRepository<java.lang.String></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>include</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>maxDepth</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td>2147483647</td>
+    <td>int</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>maxMessagesPerPoll</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>minDepth</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>move</td>
+    <td>parameter</td>
+    <td>filter</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>exclusiveReadLockStrategy</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td></td>
+    <td>org.apache.camel.component.file.GenericFileExclusiveReadLockStrategy<T></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLock</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td>none<br/>markerFile<br/>fileLock<br/>rename<br/>changed<br/>idempotent</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockCheckInterval</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>1000</td>
+    <td>long</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockDeleteOrphanLockFiles</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockLoggingLevel</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>WARN</td>
+    <td>org.apache.camel.LoggingLevel</td>
+    <td>TRACE<br/>DEBUG<br/>INFO<br/>WARN<br/>ERROR<br/>OFF</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockMarkerFile</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockMinAge</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>0</td>
+    <td>long</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockMinLength</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>1</td>
+    <td>long</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockRemoveOnCommit</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockRemoveOnRollback</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>readLockTimeout</td>
+    <td>parameter</td>
+    <td>lock</td>
+    <td></td>
+    <td>10000</td>
+    <td>long</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>backoffErrorThreshold</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td>The number of subsequent error polls (failed due some error) that should happen before the backoffMultipler should kick-in.</td>
+  </tr>
+  <tr>
+    <td>backoffIdleThreshold</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td>The number of subsequent idle polls that should happen before the backoffMultipler should kick-in.</td>
+  </tr>
+  <tr>
+    <td>backoffMultiplier</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td></td>
+    <td>int</td>
+    <td></td>
+    <td>To let the scheduled polling consumer backoff if there has been a number of subsequent idles/errors in a row. The multiplier is then the number of polls that will be skipped before the next actual attempt is happening again. When this option is in use then backoffIdleThreshold and/or backoffErrorThreshold must also be configured.</td>
+  </tr>
+  <tr>
+    <td>delay</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>500</td>
+    <td>long</td>
+    <td></td>
+    <td>Milliseconds before the next poll.</td>
+  </tr>
+  <tr>
+    <td>greedy</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td>If greedy is enabled, then the ScheduledPollConsumer will run immediately again, if the previous run polled 1 or more messages.</td>
+  </tr>
+  <tr>
+    <td>initialDelay</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>1000</td>
+    <td>long</td>
+    <td></td>
+    <td>Milliseconds before the first poll starts.</td>
+  </tr>
+  <tr>
+    <td>runLoggingLevel</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>TRACE</td>
+    <td>org.apache.camel.LoggingLevel</td>
+    <td>TRACE<br/>DEBUG<br/>INFO<br/>WARN<br/>ERROR<br/>OFF</td>
+    <td>The consumer logs a start/complete log line when it polls. This option allows you to configure the logging level for that.</td>
+  </tr>
+  <tr>
+    <td>scheduledExecutorService</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td></td>
+    <td>java.util.concurrent.ScheduledExecutorService</td>
+    <td></td>
+    <td>Allows for configuring a custom/shared thread pool to use for the consumer. By default each consumer has its own single threaded thread pool.</td>
+  </tr>
+  <tr>
+    <td>scheduler</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>none</td>
+    <td>org.apache.camel.spi.ScheduledPollConsumerScheduler</td>
+    <td>none<br/>spring<br/>quartz2</td>
+    <td>To use a cron scheduler from either camel-spring or camel-quartz2 component</td>
+  </tr>
+  <tr>
+    <td>schedulerProperties</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td></td>
+    <td>java.util.Map<java.lang.String,java.lang.Object></td>
+    <td></td>
+    <td>To configure additional properties when using a custom scheduler or any of the Quartz2, Spring based scheduler.</td>
+  </tr>
+  <tr>
+    <td>startScheduler</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td>Whether the scheduler should be auto started.</td>
+  </tr>
+  <tr>
+    <td>timeUnit</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>MILLISECONDS</td>
+    <td>java.util.concurrent.TimeUnit</td>
+    <td>NANOSECONDS<br/>MICROSECONDS<br/>MILLISECONDS<br/>SECONDS<br/>MINUTES<br/>HOURS<br/>DAYS</td>
+    <td>Time unit for initialDelay and delay options.</td>
+  </tr>
+  <tr>
+    <td>useFixedDelay</td>
+    <td>parameter</td>
+    <td>scheduler</td>
+    <td></td>
+    <td>true</td>
+    <td>boolean</td>
+    <td></td>
+    <td>Controls if fixed delay or fixed rate is used. See ScheduledExecutorService in JDK for details.</td>
+  </tr>
+  <tr>
+    <td>shuffle</td>
+    <td>parameter</td>
+    <td>sort</td>
+    <td></td>
+    <td></td>
+    <td>boolean</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>sortBy</td>
+    <td>parameter</td>
+    <td>sort</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>sorter</td>
+    <td>parameter</td>
+    <td>sort</td>
+    <td></td>
+    <td></td>
+    <td>java.util.Comparator<org.apache.camel.component.file.GenericFile<T>></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>ciphers</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Set a comma separated list of ciphers that will be used in order of preference.
+ Possible cipher names are defined by JCraft JSCH. Some examples include: aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-cbc,aes256-cbc.
+ If not specified the default list from JSCH will be used.</td>
+  </tr>
+  <tr>
+    <td>keyPair</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.security.KeyPair</td>
+    <td></td>
+    <td>Sets a key pair of the public and private key so to that the SFTP endpoint can do public/private key verification.</td>
+  </tr>
+  <tr>
+    <td>knownHosts</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>byte[]</td>
+    <td></td>
+    <td>Sets the known_hosts from the byte array, so that the SFTP endpoint can do host key verification.</td>
+  </tr>
+  <tr>
+    <td>knownHostsFile</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Sets the known_hosts file, so that the SFTP endpoint can do host key verification.</td>
+  </tr>
+  <tr>
+    <td>knownHostsUri</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Sets the known_hosts file (loaded from classpath by default), so that the SFTP endpoint can do host key verification.</td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Password to use for login</td>
+  </tr>
+  <tr>
+    <td>preferredAuthentications</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Set the preferred authentications which SFTP endpoint will used. Some example include:password,publickey.
+ If not specified the default list from JSCH will be used.</td>
+  </tr>
+  <tr>
+    <td>privateKey</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>byte[]</td>
+    <td></td>
+    <td>Set the private key as byte[] so that the SFTP endpoint can do private key verification.</td>
+  </tr>
+  <tr>
+    <td>privateKeyFile</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Set the private key file so that the SFTP endpoint can do private key verification.</td>
+  </tr>
+  <tr>
+    <td>privateKeyPassphrase</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Set the private key file passphrase so that the SFTP endpoint can do private key verification.</td>
+  </tr>
+  <tr>
+    <td>privateKeyUri</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Set the private key file (loaded from classpath by default) so that the SFTP endpoint can do private key verification.</td>
+  </tr>
+  <tr>
+    <td>strictHostKeyChecking</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td>no</td>
+    <td>java.lang.String</td>
+    <td>no<br/>yes</td>
+    <td>Sets whether to use strict host key checking.</td>
+  </tr>
+  <tr>
+    <td>username</td>
+    <td>parameter</td>
+    <td>security</td>
+    <td></td>
+    <td></td>
+    <td>java.lang.String</td>
+    <td></td>
+    <td>Username to use for login</td>
+  </tr>
+</table>
+<h2>sftp consumer</h2>
+<p>Secure FTP consumer</p>
+</body>
+</html>

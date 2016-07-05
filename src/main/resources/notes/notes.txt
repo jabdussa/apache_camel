@@ -1,0 +1,130 @@
+--------------------------------
+Links, Sources, Inspiration
+--------------------------------
+1. Apache FTP Example
+   
+   http://camel.apache.org/ftp2.html
+
+
+2. Github FTP Camel Examples 
+
+   https://github.com/apache/camel/tree/master/examples/camel-example-ftp
+  
+   https://github.com/apache/camel/tree/master/examples/camel-example-ftp/src/main/java/org/apache/camel/example/ftp
+
+
+3. Scala DSL Examples
+
+   http://camel.apache.org/scala-dsl.html
+   
+   http://www.davsclaus.com/2011/12/apache-camel-little-scala-dsl-example.html
+   
+   http://camel.apache.org/scala-dsl-getting-started.html
+
+ 
+4. Localhost SFTP On OSX 
+   
+   http://osxdaily.com/2011/09/29/start-an-ftp-or-sftp-server-in-mac-os-x-lion/
+
+
+--------------------------------
+QUESTIONS 
+--------------------------------
+1. A few examples other than ftp2 would  be good. 
+
+
+
+--------------------------------
+NEXT STEPS 
+--------------------------------
+1. Do a simple ftp download from localhost via REPL 
+2. Trying to find the classes to load into the REPL
+
+3. Mon Jul 04 2016 04:03 pm
+
+   Try to generate a scala camel example using maven
+   
+   http://camel.apache.org/scala-dsl-getting-started.html
+   
+   mvn archetype:generate
+   
+   mvn camel-archetype-scala
+   
+   mvn archetype:generate | grep camel-archetype-scala
+   
+   mvn> 749
+
+--------------------------------
+LOCALHOST SFTP ON OSX
+--------------------------------
+
+sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
+
+
+--------------------------------
+REPL 1 - Trouble shooting 
+--------------------------------
+
+JARS=/opt/jars
+TMP=/var/tmp/jars
+[ -d $TMP ] && rm -rf $TMP
+mkdir -p $TMP
+cd $TMP 
+cp -v $JARS/camel-core-2.17.2.jar $TMP
+cp -v $JARS/camel-ftp-2.17.2.jar $TMP
+cp -v $JARS/camel-scala-2.17.2.jar $TMP
+jar xvf camel-core-2.17.2.jar
+jar xvf camel-ftp-2.17.2.jar
+jar xvf camel-scala-2.17.2.jar
+
+find org -name *Main*
+
+--------------------------------
+REPL 2 
+--------------------------------
+
+DIR=/opt/jars
+
+JARS=$DIR/camel-scala-2.17.2.jar:$JARS
+JARS=$DIR/camel-core-2.17.2.jar:$JARS
+JARS=$DIR/camel-ftp-2.17.2.jar:$JARS
+JARS=$DIR/log4j-1.2.17.jar:$JARS
+JARS=$DIR/slf4j-log4j12-1.7.21.jar:$JARS
+JARS=$DIR/slf4j-api-1.7.21.jar:$JARS
+
+scala -cp $JARS
+
+
+:cp
+
+
+import org.apache.camel.main.Main
+import org.apache.camel.scala.dsl.builder.RouteBuilderSupport
+import org.apache.camel.scala.dsl.builder.ScalaRouteBuilder
+import org.apache.camel.{CamelContext => CC, Exchange => EX}
+
+
+class Route(override val ctx: CC) 
+  extends ScalaRouteBuilder(ctx) {
+
+    // an example of a Processor method
+   val p = (x: EX) => {
+     x.getIn.setBody("block test")
+   }
+   
+   // a route using Scala blocks
+   "timer://foo?period=5s" ==> {
+      process(p).to("log:block")
+   }
+}
+
+val main = new Main()
+
+// create the CamelContext
+val ctx = main.getOrCreateCamelContext()
+
+main.addRouteBuilder(new Route(ctx))
+
+// must use run to start the main application
+main.run()
+
