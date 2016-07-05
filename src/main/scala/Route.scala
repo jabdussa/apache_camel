@@ -1,14 +1,11 @@
-package com.carnival.xi
-
 import org.apache.camel.{CamelContext => CC, Exchange => EX}
 import org.apache.camel.scala.dsl.builder.ScalaRouteBuilder
-
 
 /**
  * A Camel Router using the Scala DSL
  */
 
-class Route(override val ctx: CC) 
+class Route(override val ctx: CC)
   extends ScalaRouteBuilder(ctx) {
 
     // an example of a Processor method
@@ -21,5 +18,5 @@ class Route(override val ctx: CC)
       process(p)
       to("log:block")
    }
-   
+
 }

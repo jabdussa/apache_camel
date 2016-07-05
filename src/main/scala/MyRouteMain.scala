@@ -1,5 +1,3 @@
-package com.carnival.xi.ingest
-
 import org.apache.camel.main.Main
 import org.apache.camel.scala.dsl.builder.RouteBuilderSupport
 

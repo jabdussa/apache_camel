@@ -1,5 +1,3 @@
-package com.carnival.xi
-
 import org.apache.camel.main.Main
 import org.apache.camel.scala.dsl.builder.RouteBuilderSupport
 
@@ -9,17 +7,16 @@ import org.apache.camel.scala.dsl.builder.RouteBuilderSupport
 object Boot extends RouteBuilderSupport {
 
   def main(args: Array[String]) {
-    
+
     val main = new Main()
-    
+
     // create the CamelContext
     val ctx = main.getOrCreateCamelContext()
-    
+
     // add our route using the created CamelContext
     main.addRouteBuilder(new Route(ctx))
-    
+
     // must use run to start the main application
     main.run()
   }
 }
-
